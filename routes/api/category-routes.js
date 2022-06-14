@@ -18,14 +18,16 @@ router.get("/", async (req, res) => {
   }
 });
 
+//WORK ON THIS ONE!!!!!
 router.get("/:id", async (req, res) => {
   // find one category by its `id` value
   // be sure to include its associated Products
   try {
-    const categoryData = await Category.findByPk(req.params.id);
-    const productData = await Product.findByPk(req.params.id);
+    const categoryData = await Category.findByPk(req.params.id, {
+      include: [{ model: Product }],
+    });
 
-    res.status(200).json(categoryData, productData);
+    res.status(200).json(categoryData);
   } catch (err) {
     res.status(500).json("The category or product id was invalid.");
   }
